@@ -88,7 +88,7 @@ def huffman(path):
     height = img.shape[0]
     width = img.shape[1]
 
-    bitin = height * width * 8
+    bitin = height * width * 8 * 3 #Jumlah bit per pixel = 8x3 (RGB), dikali banyaknya pixel
     bitout = len(bitmap)
     print("Perbedaan jumlah bit awal dan akhir: " + str(bitout/bitin*100) + "%")
     return "Berhasil Compress"
