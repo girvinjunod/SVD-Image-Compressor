@@ -1,11 +1,10 @@
 from PIL import Image
 import imageio
 import numpy as np
-import os
 import time
-from svd import *
+import os
 
-def main(path, k):
+def svd(path, k):
     #Check input
     try:
         img = imageio.imread(path)
@@ -16,21 +15,16 @@ def main(path, k):
     #img dimensions
     height = img.shape[0]
     width = img.shape[1]
-    
-    #Check input
-    if k < 1 or k > height:
-        return "Tingkat kompresi salah"
 
-
-    #BGR
-    blue = img[:,:,0]
+    #RGB
+    red = img[:,:,0]
     green = img[:,:,1]
-    red = img[:,:,2]
-    bgr = [blue,green,red]
+    blue = img[:,:,2]
+    rgb = [red,green,blue]
 
     res = []
     #SVD for each color
-    for i in bgr:
+    for i in rgb:
         # Calulating the SVD, nanti diganti pakai algo sendiri
         U, s, VT = np.linalg.svd(i)
 
@@ -39,7 +33,7 @@ def main(path, k):
         Sigma = np.zeros((height, width))
 
         # fill Sigma with diagonal s
-        #print(np.diag(s).shape)
+        
         if (height < width):
             Sigma[:height, : height] = np.diag(s)
         else:
@@ -53,18 +47,18 @@ def main(path, k):
 
         res.append(B)
 
-    #Reconstruct BGR
-    b1 = res[0]
+    #Reconstruct RGB
+    r1 = res[0]
     g1 = res[1]
-    r1 = res[2]
+    b1 = res[2]
     hasil = []
     for i in range(len(r1)):
         temp = []
         for j in range(len(r1[i])):
             temprgb = []
-            temprgb.append(b1[i][j])
-            temprgb.append(g1[i][j])
             temprgb.append(r1[i][j])
+            temprgb.append(g1[i][j])
+            temprgb.append(b1[i][j])
             temp.append(temprgb)
         hasil.append(temp)
     hasil = np.array(hasil)
@@ -83,22 +77,55 @@ def main(path, k):
     print("Persentase ukuran memori gambar yang dikompresi terhadap gambar original: " + "{:.3f}".format(sizeakhir/sizeawal*100) + "%")
     return "Berhasil Compress"
 
+def huffman(path):
+    return "Berhasil Compress"
+
+
 #main
 #Read image
 dirin = "in/"
 namaimg = input("Masukkan path file gambar(in/): ")
+path = dirin+namaimg
+print("Pilih algoritma:")
+print("1. SVD")
+print("2. Huffman")
+
 try:
-    k = int(input("Masukkan tingkat kompresi-> \nAmbil sampai vektor ke berapa dari hasil SVD (1-tinggi gambar): "))
-    path = dirin+namaimg
-    start = time.time()
-    print(main(path, k))
-    end = time.time()
-    print("Runtime program: " + "{:.3f}".format(end - start) + " detik")
+    alg = int(input("Input(1/2): "))
+    if alg == 1:
+        valid = False
+        try:
+            k = int(input("Masukkan tingkat kompresi-> \nPilih jumlah singular values: "))
+            valid = True
+        except:
+            print("Error Input")
+        if valid:
+            start = time.time()
+            print(svd(path, k))
+            end = time.time()
+            print("Runtime program: " + "{:.3f}".format(end - start) + " detik")
+    elif alg == 2:
+        start = time.time()
+        print(huffman(path))
+        end = time.time()
+        print("Runtime program: " + "{:.3f}".format(end - start) + " detik")
+    else:
+        print("Error Input")
 except:
-    start = time.time()
-    print("Error input")
-    end = time.time()
-    print("Runtime program: " + "{:.3f}".format(end - start) + " detik")
+    print("Error Input")
+
+
+
+
+
+
+
+
+
+
+    
+    
+
 
 
 
