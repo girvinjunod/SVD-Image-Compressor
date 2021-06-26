@@ -68,8 +68,10 @@ def huffman(path):
 
     huffmanCode = huffmanTree(nodes[0][0], "")
     bitmap = ""
-    for key in sorted(huffmanCode):
-        bitmap += huffmanCode[key]
+    for i in img:
+        for j in i:
+            for k in j:
+                bitmap += huffmanCode[k]
 
     idx = path.index(".")
     nama = path[:idx]
@@ -89,4 +91,4 @@ def huffman(path):
     bitin = height * width * 8
     bitout = len(bitmap)
     print("Perbedaan jumlah bit awal dan akhir: " + str(bitout/bitin*100) + "%")
-    return ""
+    return "Berhasil Compress"
