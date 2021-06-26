@@ -81,7 +81,14 @@ def huffman(path):
     f = open("out/" + nama, "w")
     f.write(bitmap)
     f.close()
-
+    
+    '''
+    data = list(bitmap)
+    data = [int(i) for i in data]
+    out_bits = np.array(data)
+    out_bytes = np.packbits(out_bits)
+    out_bytes.tofile("tes.jpg")
+    '''
 
     print('Kode Huffman:')
     for key in sorted(huffmanCode):
