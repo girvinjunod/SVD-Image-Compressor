@@ -67,6 +67,8 @@ def huffman(path):
         nodes = sorted(nodes, key=lambda x: x[1], reverse=True)
 
     huffmanCode = huffmanTree(nodes[0][0], "")
+    
+    #Translate intensitas pixel gambar ke kode huffman
     bitmap = ""
     for i in img:
         for j in i:
@@ -79,6 +81,7 @@ def huffman(path):
     f = open("out/" + nama, "w")
     f.write(bitmap)
     f.close()
+
 
     print('Kode Huffman:')
     for key in sorted(huffmanCode):
