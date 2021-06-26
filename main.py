@@ -13,7 +13,10 @@ try:
         valid = False
         try:
             k = int(input("Masukkan tingkat kompresi-> \nPilih jumlah singular values: "))
-            valid = True
+            if k >=1:
+                valid = True
+            else:
+                print("Jumlah singular value minimal 1")
         except:
             print("Error Input")
         if valid:
